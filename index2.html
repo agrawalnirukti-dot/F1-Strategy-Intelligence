@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 Strategy Intelligence</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800&family=Rajdhani:wght@400;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style2.css">
+
+    <script src="https://kit.fontawesome.com/4adadbb9b4.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <div class="grid-bg"></div>
+    <div class="background-overlay"></div>
+
+    <header class="main-header">
+        <div class="logo">F1 STRATEGY INTELLIGENCE</div>
+
+        <nav class="nav-tabs">
+            <a class="nav-item active" data-tab="schedules">Schedules</a>
+            <a class="nav-item" data-tab="races">Races</a>
+            <a class="nav-item" data-tab="standings">Standings</a>
+            <a class="nav-item" data-tab="teams">Teams</a>
+            <a class="nav-item" data-tab="strategy">Strategy</a>
+        </nav>
+
+        <div class="team-selector">
+            <select id="teamSelect">
+                <option value="ferrari">Ferrari</option>
+                <option value="redbull">Red Bull</option>
+                <option value="mercedes">Mercedes</option>
+            </select>
+        </div>
+    </header>
+
+    <section class="team-banner">
+        <h2 id="bannerTeamName">Ferrari SF-26</h2>
+    </section>
+
+    <main>
+        <section id="schedules" class="tab-content active">
+            <div class="card" style="text-align: center; margin-bottom: 30px;">
+                <h3 style="font-family: 'Orbitron'; color: var(--team-color);">NEXT GRAND PRIX COUNTDOWN</h3>
+                <div id="timer" style="font-size: 2.5rem; font-family: 'Orbitron'; margin-top: 10px;">LOADING...</div>
+            </div>
+
+            <h2 class="section-title">2026 Season Schedule</h2>
+            <div class="card-grid" id="scheduleContainer">
+            </div>
+        </section>
+
+        <section id="races" class="tab-content">
+            <h2 class="section-title">Recent Race Analysis</h2>
+            <div class="card-grid" id="raceResults">
+            </div>
+        </section>
+
+        <section id="standings" class="tab-content">
+            <h2 class="section-title">World Driver Standings</h2>
+            <div class="card">
+                <table id="standingsTable">
+                </table>
+            </div>
+        </section>
+
+        <section id="teams" class="tab-content">
+            <div class="dashboard-grid">
+                <div class="stats-col">
+                    <div class="card driver-card">
+                        <div>
+                            <h1 id="driver1No">16</h1>
+                            <p id="driver1Name">Leclerc</p>
+                        </div>
+                        <div>
+                            <h1 id="driver2No">44</h1>
+                            <p id="driver2Name">Hamilton</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Current Standing</h3>
+                        <p id="positionData">2nd | 90 pts</p>
+                    </div>
+                    <div class="card">
+                        <h3>Season Stats</h3>
+                        <p>Wins: <span id="winsData">0</span></p>
+                        <p>Podiums: <span id="podiumsData">0</span></p>
+                        <p>Fastest Laps: <span id="fastestData">0</span></p>
+                    </div>
+                </div>
+
+                <div class="car-col">
+                    <img id="teamCar" class="car-image" src="assets/images/ferrari-car.png" alt="F1 Car">
+                </div>
+
+                <div class="info-col">
+                    <div class="card">
+                        <h3>Technical Profile</h3>
+                        <p>Base: <span id="teamBase">Maranello, IT</span></p>
+                        <p>Engine: <span id="teamEngine">Ferrari</span></p>
+                        <p>Chassis: <span id="teamChassis">SF-26</span></p>
+                    </div>
+                    <div class="card">
+                        <h3>Performance Metrics</h3>
+                        <p>Qualifying Pace</p>
+                        <div class="bar">
+                            <div class="fill" id="gridBar" style="width: 88%;"></div>
+                        </div>
+                        <p>Race Reliability</p>
+                        <div class="bar">
+                            <div class="fill secondary" id="finishBar" style="width: 90%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="strategy" class="tab-content">
+            <div class="strategy-controls">
+                <select id="tyreSelect">
+                    <option value="soft">Soft Compound</option>
+                    <option value="medium">Medium Compound</option>
+                    <option value="hard">Hard Compound</option>
+                </select>
+
+                <select id="pitStops">
+                    <option value="1">1 Stop Strategy</option>
+                    <option value="2">2 Stop Strategy</option>
+                </select>
+
+                <select id="fuelLoad">
+                    <option value="light">Light Fuel</option>
+                    <option value="medium">Medium Fuel</option>
+                    <option value="heavy">Heavy Fuel</option>
+                </select>
+
+                <select id="weatherSelect">
+                    <option value="dry">Dry Track</option>
+                    <option value="rain">Wet Track</option>
+                </select>
+
+                <select id="safetyCar">
+                    <option value="low">Low SC Risk</option>
+                    <option value="medium">Mid SC Risk</option>
+                    <option value="high">High SC Risk</option>
+                </select>
+
+                <select id="aggression">
+                    <option value="low">Conservative</option>
+                    <option value="medium" selected>Balanced</option>
+                    <option value="high">Aggressive</option>
+                </select>
+
+                <button id="simulateBtn">Execute Simulation</button>
+            </div>
+
+            <div id="strategyOutput">
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 F1 Strategy Intelligence | Powered by OpenF1 API</p>
+    </footer>
+
+    <script src="js/script2.js"></script>
+</body>
+
+</html>
