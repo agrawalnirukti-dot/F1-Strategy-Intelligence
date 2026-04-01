@@ -149,7 +149,7 @@ document.querySelectorAll(".nav-item").forEach(item => {
 
 // --- TIMER LOGIC ---
 function startTimer() {
-    const countDownDate = new Date("March 15, 2026 15:00:00").getTime();
+    const countDownDate = new Date("May 24, 2026 15:00:00").getTime();
 
     setInterval(function() {
         const now = new Date().getTime();
