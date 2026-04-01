@@ -31,7 +31,6 @@ const JOLPICA_API = "https://api.jolpi.ca/ergast/f1/2026";
 
 async function initDashboard() {
     try {
-        // Fetch 2026 Standings & Results
         const [standRes, resultsRes] = await Promise.all([
             fetch(`${JOLPICA_API}/driverStandings.json`),
             fetch(`${JOLPICA_API}/results.json`)
@@ -40,12 +39,19 @@ async function initDashboard() {
         const standData = await standRes.json();
         const resultsData = await resultsRes.json();
 
-        renderStandings(standData.MRData.StandingsTable.StandingsLists[0].DriverStandings);
-        renderRaceAnalysis(resultsData.MRData.RaceTable.Races);
-        loadTeam("ferrari"); // Initial load
+        // Safety check to prevent crashing if API 2026 data is empty
+        if (standData.MRData.StandingsTable.StandingsLists.length > 0) {
+            renderStandings(standData.MRData.StandingsTable.StandingsLists[0].DriverStandings);
+        }
+        
+        if (resultsData.MRData.RaceTable.Races.length > 0) {
+            renderRaceAnalysis(resultsData.MRData.RaceTable.Races);
+        }
+
+        loadTeam("ferrari"); 
 
     } catch (error) {
-        console.error("API Error - falling back to internal data", error);
+        console.warn("API Latency - triggering local fallback", error);
         loadTeam("ferrari");
     }
 }
@@ -53,6 +59,7 @@ async function initDashboard() {
 // --- RENDERERS ---
 function renderStandings(standings) {
     const table = document.getElementById("standingsTable");
+    if (!table) return;
     table.innerHTML = `<tr><th>Pos</th><th>Driver</th><th>Pts</th></tr>`;
     table.innerHTML += standings.slice(0, 10).map(s => `
         <tr><td>${s.position}</td><td>${s.Driver.familyName}</td><td>${s.points}</td></tr>
@@ -61,9 +68,9 @@ function renderStandings(standings) {
 
 function renderRaceAnalysis(races) {
     const container = document.getElementById("raceResults");
-    if (!races.length) return;
+    if (!container || !races.length) return;
 
-    const latest = races[races.length - 1]; // Latest 2026 race (Japan)
+    const latest = races[races.length - 1];
     container.innerHTML = `<h3 style="grid-column: 1/-1; color: var(--team-color)">Latest: ${latest.raceName}</h3>`;
     container.innerHTML += latest.Results.slice(0, 4).map(res => `
         <div class="schedule-card">
@@ -82,7 +89,6 @@ function loadTeam(key) {
     document.getElementById("teamCar").src = t.carImg;
     document.querySelector(".background-overlay").style.backgroundImage = `url('${t.bgImg}')`;
 
-    // Stats Update
     document.getElementById("driver1No").innerText = t.driver1.no;
     document.getElementById("driver1Name").innerText = t.driver1.name;
     document.getElementById("driver2No").innerText = t.driver2.no;
@@ -91,11 +97,9 @@ function loadTeam(key) {
     document.getElementById("winsData").innerText = t.wins;
     document.getElementById("podiumsData").innerText = t.podiums;
     document.getElementById("fastestData").innerText = t.fastest;
-
     document.getElementById("teamBase").innerText = t.base;
     document.getElementById("teamEngine").innerText = t.engine;
     document.getElementById("teamChassis").innerText = t.chassis;
-
     document.getElementById("gridBar").style.width = t.gridAvg + "%";
     document.getElementById("finishBar").style.width = t.finishAvg + "%";
 }
@@ -109,7 +113,6 @@ document.getElementById("simulateBtn").onclick = function () {
     const aggression = document.getElementById("aggression").value;
     const sc = document.getElementById("safetyCar").value;
 
-    // Simulation Math
     const base = 90.0;
     const tyreMod = { soft: -1.2, medium: 0, hard: 1.1 }[tyre];
     const fuelMod = { light: -0.5, medium: 0.2, heavy: 0.9 }[fuel];
@@ -143,7 +146,7 @@ document.querySelectorAll(".nav-item").forEach(item => {
         document.getElementById(this.dataset.tab).classList.add("active");
     });
 });
-// --- TIMER LOGIC ---
+
 // --- TIMER LOGIC ---
 function startTimer() {
     const countDownDate = new Date("March 15, 2026 15:00:00").getTime();
@@ -163,12 +166,11 @@ function startTimer() {
         }
     }, 1000);
 }
+
 // --- INITIALIZATION ---
 document.getElementById("teamSelect").onchange = (e) => loadTeam(e.target.value);
 
 window.onload = () => {
-    // Start the timer immediately
-    startTimer(); 
-    // Initialize the API data
+    startTimer();
     initDashboard();
 };
