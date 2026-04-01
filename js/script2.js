@@ -144,30 +144,28 @@ document.querySelectorAll(".nav-item").forEach(item => {
     });
 });
 // --- TIMER LOGIC ---
+// --- TIMER LOGIC ---
 function startTimer() {
-    // Target date for the 2026 Season Opener
     const countDownDate = new Date("March 15, 2026 15:00:00").getTime();
 
     setInterval(function() {
         const now = new Date().getTime();
         const distance = countDownDate - now;
 
-        // Calculations for days, hours, minutes and seconds
         const days = Math.floor(distance / (1000 * 60 * 60 * 24));
         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        // Output the result in the element with id="timer"
         const timerElement = document.getElementById("timer");
         if (timerElement) {
             timerElement.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
         }
     }, 1000);
 }
+startTimer(); // This starts the clock
 
-// Ensure the timer starts when the page loads
-startTimer();
+
 
 document.getElementById("teamSelect").onchange = (e) => loadTeam(e.target.value);
 window.onload = initDashboard;
