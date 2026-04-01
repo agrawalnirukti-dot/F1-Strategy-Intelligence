@@ -22,7 +22,7 @@ const teams = {
         position: "1st | 135 pts", wins: 3, podiums: 5, fastest: 2,
         base: "Brackley, UK", engine: "Mercedes-AMG", chassis: "W17",
         gridAvg: 96, finishAvg: 94,
-        carImg: "assets/images/mercedes-car.jpg", bgImg: "assets/images/mercedes-bg.jpg"
+        carImg: "assets/images/mercedes-car.png", bgImg: "assets/images/mercedes-bg.jpg"
     }
 };
 
