@@ -163,9 +163,12 @@ function startTimer() {
         }
     }, 1000);
 }
-startTimer(); // This starts the clock
-
-
-
+// --- INITIALIZATION ---
 document.getElementById("teamSelect").onchange = (e) => loadTeam(e.target.value);
-window.onload = initDashboard;
+
+window.onload = () => {
+    // Start the timer immediately
+    startTimer(); 
+    // Initialize the API data
+    initDashboard();
+};
