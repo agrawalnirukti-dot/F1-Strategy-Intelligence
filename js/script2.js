@@ -121,7 +121,7 @@ document.getElementById("simulateBtn").onclick = function () {
     const totalSecs = (lapTime * 53) + (stops * 22) + scMod;
 
     const risk = (aggression === "high" || tyre === "soft") ? "HIGH" : "STABLE";
-
+    document.getElementById('timer-display').innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
     document.getElementById("strategyOutput").innerHTML = `
         <div class="card" style="border-left: 5px solid var(--team-color)">
             <h3>2026 STRATEGY ANALYSIS</h3>
